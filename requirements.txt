@@ -5,3 +5,15 @@ django-timezone-field==7.0  # Support for timezone fields in Django models
 # Database-related packages
 dj-database-url==0.5.0     # Utility for configuring databases via URLs
 psycopg2-binary==2.9.0     # PostgreSQL database adapter for Python
+
+# Packages related to Celery and asynchronous messaging
+amqp==5.2.0                # Messaging protocol used by Celery (e.g., RabbitMQ)
+billiard==4.2.1            # Multiprocessing library used by Celery
+celery==5.4.0              # Distributed task framework (background jobs)
+django-celery-beat==2.7.0  # Periodic task scheduling with Celery in Django
+django-celery-results==2.5.1  # Storing Celery task results in Django's database
+kombu==5.4.2               # Messaging library used by Celery (communication with brokers)
+vine==5.1.0                # Kombu dependency for handling asynchronous promises
+
+# Packages related to Redis (broker for Celery)
+redis==5.1.1               # Redis client
