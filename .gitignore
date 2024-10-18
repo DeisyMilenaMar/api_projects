@@ -1,0 +1,186 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+.coverage
+coverage.xml
+
+# Translations
+*.mo
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.env.production
+.env.staging
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Static and media files
+/static
+/uploads
+/staticfiles
+/media
+
+# OS files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+*~
+
+# Editor config files
+.idea/*
+.vscode/*
+
+# Coverage files
+.coverage
+coverage.xml
+
+# Configuration files
+/app/local_settings.py
+
+# Logs
+*.log
+
+# Node modules (if using Node.js in your project)
+node_modules/
+app/static/node_modules/
+app/static/bower_components/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Other common files to ignore
+*.dump
+*.gz
+*.lock
+*.sql
+*.sqlite3
+*.swn
+*.swo
+*.swp
+
+# SageMath parsed files
+*.sage.py
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Misc
+*.egg-info/
+.pdm.toml
+__pypackages__/
+
+# Sphinx documentation
+docs/_build/
+
+# Documentation
+/site
+
+# mkdocs documentation
+/site
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# PyBuilder
+.pybuilder/
+target/
+
+#static
+/staticfiles/
+
+# Additional environment files for production or staging
+# Uncomment and adjust as necessary
+# .env.production
+# .env.staging
+
+# End of https://www.toptal.com/developers/gitignore/api/python,django
