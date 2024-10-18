@@ -35,6 +35,53 @@ services:
     networks:
       - apipython_net
 
+  redis:
+    image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+    networks:
+      - apipython_net
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A api.config.celery_setup worker --loglevel=info
+    volumes:
+      - .:/API_PROJECT
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
+    networks:
+      - apipython_net
+    stop_grace_period: 2m
+    stop_signal: SIGINT
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A api.config.celery_setup beat --loglevel=info
+    volumes:
+      - .:/API_PROJECT
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
+    networks:
+      - apipython_net
+    stop_grace_period: 2m
+    stop_signal: SIGINT
+
 volumes:
   postgres_data:
 

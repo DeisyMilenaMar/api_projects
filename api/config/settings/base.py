@@ -36,7 +36,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,6 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_results",
+    "django_celery_beat",
+    
+    "binance_trader_api",
 ]
 
 MIDDLEWARE = [
@@ -91,6 +94,17 @@ DATABASES = {
     }
 }
 
+# Optional: Additional database for Binance Trader app
+if 'BINANCE_TRADER_DB_NAME' in os.environ:
+    DATABASES['binance_trader_api'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenvvar('BINANCE_TRADER_API_DB_NAME'),
+        'USER': getenvvar('BINANCE_TRADER_API_DB_USER'),
+        'PASSWORD': getenvvar('BINANCE_TRADER_API_DB_PASSWORD'),
+        'HOST': getenvvar('BINANCE_TRADER_API_DB_HOST'),
+        'PORT': getenvvar('BINANCE_TRADER_API_DB_PORT'),
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -132,3 +146,28 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery Configuration
+CELERY_BROKER_URL = getenvvar('CELERY_BROKER_URL', 'redis://redis:6379/0')  # Redis URL
+CELERY_RESULT_BACKEND = getenvvar('CELERY_RESULT_BACKEND', 'django-db')  # Django DB as result backend
+
+# Celery task settings
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# Celery broker connection retry settings
+CELERY_BROKER_CONNECTION_MAX_RETRIES = int(getenvvar('CELERY_BROKER_CONNECTION_MAX_RETRIES', 5))
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_CONNECTION_TIMEOUT = int(getenvvar('CELERY_BROKER_CONNECTION_TIMEOUT', 10))
+
+# Enable Eager mode for development (tasks run locally without a worker)
+CELERY_TASK_ALWAYS_EAGER = getenvvar('CELERY_TASK_ALWAYS_EAGER', 'False').lower() in ['true', '1', 't']
+
+# Additional Celery settings
+CELERY_RESULT_EXTENDED = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+CELERY_TASK_TIME_LIMIT = int(getenvvar('CELERY_TASK_TIME_LIMIT', 300))  # Task timeout in seconds
+
+# Automatically discover tasks in the Binance Trader app
+CELERY_IMPORTS = ('binance_trader_api.tasks',)

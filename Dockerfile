@@ -48,7 +48,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copia el código fuente del proyecto y el script entrypoint
 COPY . .
 
-RUN chmod +x ./scripts/start ./scripts/entrypoint.sh
+RUN chmod +x ./scripts/start ./scripts/entrypoint.sh ./scripts/create-dbs.sh
 
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
