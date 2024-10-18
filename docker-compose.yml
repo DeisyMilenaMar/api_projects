@@ -1,0 +1,43 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: ["sh", "./scripts/entrypoint.sh"]
+    command: ["sh", "./scripts/start"]
+    volumes:
+      - .:/API_PROJECTS
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.local
+    depends_on:
+      - db
+    networks:
+      - apipython_net
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      retries: 5
+    stop_grace_period: 1m
+    stop_signal: SIGINT
+    networks:
+      - apipython_net
+
+volumes:
+  postgres_data:
+
+networks:
+  apipython_net:
+    driver: bridge

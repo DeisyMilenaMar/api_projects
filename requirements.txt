@@ -1,0 +1,7 @@
+# Packages for Django and its ecosystem
+Django==5.1.2              # Django web framework
+django-timezone-field==7.0  # Support for timezone fields in Django models
+
+# Database-related packages
+dj-database-url==0.5.0     # Utility for configuring databases via URLs
+psycopg2-binary==2.9.0     # PostgreSQL database adapter for Python
