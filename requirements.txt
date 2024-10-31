@@ -17,3 +17,7 @@ vine==5.1.0                # Kombu dependency for handling asynchronous promises
 
 # Packages related to Redis (broker for Celery)
 redis==5.1.1               # Redis client
+
+asgiref==3.8.1
+python-dateutil==2.9.0.post0
+python-crontab==3.2.0
