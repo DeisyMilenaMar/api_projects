@@ -1,9 +1,16 @@
-from django.core.validators import RegexValidator, MinLengthValidator, MinValueValidator, MaxValueValidator
+from django.core.validators import RegexValidator
+from django.core.validators import MinLengthValidator
+from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
+
 from functools import partial
+
 from django.db import models
 from django.db.models import JSONField
+
 from api.common.models import AutoCreatedUpdatedMixin
 from api.common.helpers import generate_token
+
 
 class User(AutoCreatedUpdatedMixin):
     """
@@ -12,10 +19,7 @@ class User(AutoCreatedUpdatedMixin):
     name = models.CharField(
         max_length=60,
         validators=[
-            RegexValidator(
-                regex=r'^[\w á-úÁ-Ú]*$',
-                message="Name must only contain letters, spaces, and underscores."
-            ),
+            RegexValidator(regex=r'^[\w á-úÁ-Ú]*$'),
             MinLengthValidator(2)
         ],
         help_text="User's full name."
@@ -49,16 +53,19 @@ class Advertiser(AutoCreatedUpdatedMixin):
         help_text="Type of advertiser (e.g., individual, company)."
     )
     month_finish_rate = models.DecimalField(
-        max_digits=5,
-        decimal_places=4,
+        max_digits=10,
+        decimal_places=9,
+        validators=[MinValueValidator(0), MaxValueValidator(1)],
         help_text="Monthly transaction completion rate."
     )
     positive_rate = models.DecimalField(
-        max_digits=5,
-        decimal_places=4,
+        max_digits=10,
+        decimal_places=9,
+        validators=[MinValueValidator(0), MaxValueValidator(1)],
         help_text="Percentage of positive feedback."
     )
-    month_order_count = models.IntegerField(
+    month_order_count = models.PositiveIntegerField(
+        validators=[MinValueValidator(0)],
         help_text="Number of orders completed in the month."
     )
 
@@ -90,17 +97,17 @@ class Advertisement(AutoCreatedUpdatedMixin):
         help_text="Fiat currency used in the advertisement (e.g., USD)."
     )
     price = models.DecimalField(
-        max_digits=10,
+        max_digits=15,
         decimal_places=2,
         help_text="Price per unit of the asset."
     )
     min_trade_limit = models.DecimalField(
-        max_digits=10,
+        max_digits=15,
         decimal_places=2,
         help_text="Minimum trade limit."
     )
     max_trade_limit = models.DecimalField(
-        max_digits=10,
+        max_digits=15,
         decimal_places=2,
         help_text="Maximum trade limit."
     )
@@ -201,25 +208,25 @@ class BinanceTraderRequestLog(AutoCreatedUpdatedMixin):
     """
     Model for logging requests and responses to/from Binance trading services.
     """
-    USER_CREATION = "user_creation"
-    TRANSACTION_CREATION = "transaction_creation"
-    BINANCE_PRICE = "binance_price_check"
-    BINANCE_P2P_SEARCH = "binance_P2P_advertisement_search"
-    PRICE_ANALYSIS = "price_analysis"
-    NOTIFICATION_CREATION = "notification_creation"
-    EMAIL_SENDING = "email_sending"
+    USER_CREATION_SLUG = "user_creation"
+    TRANSACTION_CREATION_SLUG = "transaction_creation"
+    BINANCE_PRICE_SLUG = "binance_price_check"
+    BINANCE_P2P_SEARCH_SLUG = "binance_P2P_advertisement_search"
+    PRICE_ANALYSIS_SLUG = "price_analysis"
+    NOTIFICATION_CREATION_SLUG = "notification_creation"
+    EMAIL_SENDING_SLUG = "email_sending"
     
     ACTION_CHOICES = [
-        (USER_CREATION, USER_CREATION),
-        (TRANSACTION_CREATION, TRANSACTION_CREATION),
-        (BINANCE_PRICE, BINANCE_PRICE),
-        (BINANCE_P2P_SEARCH, BINANCE_P2P_SEARCH),
-        (PRICE_ANALYSIS, PRICE_ANALYSIS),
-        (NOTIFICATION_CREATION, NOTIFICATION_CREATION),
-        (EMAIL_SENDING, EMAIL_SENDING)
+        (USER_CREATION_SLUG, USER_CREATION_SLUG),
+        (TRANSACTION_CREATION_SLUG, TRANSACTION_CREATION_SLUG),
+        (BINANCE_PRICE_SLUG, BINANCE_PRICE_SLUG),
+        (BINANCE_P2P_SEARCH_SLUG, BINANCE_P2P_SEARCH_SLUG),
+        (PRICE_ANALYSIS_SLUG, PRICE_ANALYSIS_SLUG),
+        (NOTIFICATION_CREATION_SLUG, NOTIFICATION_CREATION_SLUG),
+        (EMAIL_SENDING_SLUG, EMAIL_SENDING_SLUG)
     ]
     idempotency_token = models.CharField(
-        max_length=64,
+        max_length=40,
         unique=True,
         default=partial(generate_token, prefix='idmp', with_date=True),
         help_text="Unique idempotency token for request uniqueness."
