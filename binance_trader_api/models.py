@@ -29,7 +29,7 @@ class User(AutoCreatedUpdatedMixin):
         help_text="Unique email address used to identify the user."
     )
     user_token = models.CharField(
-        max_length=128,
+        max_length=50,
         unique=True,
         default=partial(generate_token, prefix='usr', with_date=True),
         help_text="Unique token generated for the user."
@@ -40,6 +40,13 @@ class Advertiser(AutoCreatedUpdatedMixin):
     """
     Model representing an advertiser's profile information.
     """
+    AC_INDIVIDUAL = 'individual'
+    AC_COMPANY = 'company'
+
+    ACCOUNT_CHOICES = [
+        (AC_INDIVIDUAL, AC_INDIVIDUAL),
+        (AC_COMPANY, AC_COMPANY),
+    ]
     user_number = models.CharField(
         max_length=50,
         help_text="Identification number of the advertiser."
@@ -50,6 +57,7 @@ class Advertiser(AutoCreatedUpdatedMixin):
     )
     user_type = models.CharField(
         max_length=50,
+        choices=ACCOUNT_CHOICES,
         help_text="Type of advertiser (e.g., individual, company)."
     )
     month_finish_rate = models.DecimalField(
@@ -74,6 +82,12 @@ class Advertisement(AutoCreatedUpdatedMixin):
     """
     Model representing an advertisement for trading assets.
     """
+    AC_BUY = "buy"
+    AC_SELL = "sell"
+    ACTION_CHOICES =[
+        (AC_BUY, AC_BUY),
+        (AC_SELL, AC_SELL)
+    ]
     advertiser = models.ForeignKey(
         Advertiser,
         on_delete=models.DO_NOTHING,
@@ -86,6 +100,7 @@ class Advertisement(AutoCreatedUpdatedMixin):
     )
     trade_type = models.CharField(
         max_length=50,
+        choices=ACTION_CHOICES,
         help_text="Type of trade (e.g., buy or sell)."
     )
     asset = models.CharField(
@@ -129,7 +144,7 @@ class Transaction(AutoCreatedUpdatedMixin):
         (ST_COMPLETED, ST_COMPLETED),
     ]
     token_transaction = models.CharField(
-        max_length=64,
+        max_length=50,
         unique=True,
         default=partial(generate_token, prefix='trx', with_date=True),
         help_text="Unique transaction token."
@@ -160,8 +175,8 @@ class Transaction(AutoCreatedUpdatedMixin):
         max_digits=10,
         decimal_places=2,
         validators=[
-            MinValueValidator(0.01),
-            MaxValueValidator(100)
+            MinValueValidator(0),
+            MaxValueValidator(1)
         ],
         help_text="Target profit percentage for the transaction (e.g., 15.00 for 15%)."
     )
@@ -226,7 +241,7 @@ class BinanceTraderRequestLog(AutoCreatedUpdatedMixin):
         (EMAIL_SENDING_SLUG, EMAIL_SENDING_SLUG)
     ]
     idempotency_token = models.CharField(
-        max_length=40,
+        max_length=50,
         unique=True,
         default=partial(generate_token, prefix='idmp', with_date=True),
         help_text="Unique idempotency token for request uniqueness."

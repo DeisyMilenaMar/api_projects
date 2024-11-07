@@ -20,11 +20,7 @@ class BinanceClient:
 
     def __init__(self, base_url, timeout=10):
         """
-        Initialize BinanceClient.
-
-        Args:
-            base_url (str): Base URL of the Binance API.
-            timeout (int, optional): Request timeout in seconds. Defaults to 10 seconds.
+        Initialize BinanceClient with base URL and request timeout.
         """
         self.base_url = base_url
         self.timeout = timeout
@@ -33,51 +29,28 @@ class BinanceClient:
 
     def _handle_error_response(self, response, url, method_name):
         """
-        Handle error responses from the API.
-
-        Args:
-            response (requests.Response): API response object.
-            url (str): Request URL.
-            method_name (str): Name of the method making the request.
-
-        Raises:
-            RequestFailureException: For 4xx errors.
-            UnknownResultException: For 5xx errors.
+        Log and handle API error responses by raising specific exceptions.
         """
-        error_message = response.text
         logger.error(
-            f'Binance API error in {method_name}: {error_message}',
+            f'Binance API error in {method_name}: {response.text}',
             extra={
                 'url': url,
                 'method': method_name,
-                'response_status_code': response.status_code,
+                'status_code': response.status_code,
                 'response_body': response.content,
             }
         )
-        
         if 400 <= response.status_code < 500:
             raise RequestFailureException(url=url, response=response)
         elif response.status_code >= 500:
             raise UnknownResultException(url=url, response=response)
     
-    def make_request(self, http_method, endpoint, headers=None, data=None, expected_http_codes=None, method_name=""):
+    def make_request(self, http_method, endpoint, headers=None, data=None, expected_http_codes=[200], method_name=""):
         """
-        Make an HTTP request to the Binance API.
-
-        Args:
-            http_method (str): HTTP method (POST).
-            endpoint (str): API endpoint.
-            headers (dict, optional): Additional headers.
-            data (dict, optional): Request data.
-            expected_http_codes (list, optional): Expected HTTP codes.
-            method_name (str): Name of the method making the request.
-
-        Returns:
-            requests.Response: API response.
+        Send a request to Binance API and handle potential errors.
         """
         url = urljoin(self.base_url, endpoint)
         headers = headers or self.headers
-        expected_http_codes = expected_http_codes or [200]
 
         try:
             response = self._requests_client.request(
@@ -92,10 +65,7 @@ class BinanceClient:
             logger.error(
                 f'Connection error in {method_name}', 
                 exc_info=True, 
-                extra={
-                    'url': url,
-                    'timeout':self.timeout
-                }
+                extra={'url': url,'timeout':self.timeout}
             )
             raise RequestFailureException(url=url) from exc
 
@@ -103,10 +73,7 @@ class BinanceClient:
             logger.error(
                 f'Timeout in request to the BinanceTrader API in {method_name}',
                 exc_info=True,
-                extra={
-                    'url': url,
-                    'timeout_secs': self.timeout,
-                },
+                extra={'url': url,'timeout_secs': self.timeout},
             )
             raise UnknownResultException(url=url) from exc
 
@@ -121,5 +88,5 @@ class BinanceClient:
         Gets the current price for a trading pair.
         """
         endpoint = self.price_check_endpoint
-        response = self.make_request("POST", endpoint, data=kwargs, method_name='price_check')
+        response = self.make_request("POST", endpoint, data=kwargs, method_name='get_price')
         return response

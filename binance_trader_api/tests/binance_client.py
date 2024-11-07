@@ -1,23 +1,22 @@
-from django.test import TestCase
-from constance import config
-from django.conf import settings
-
-import requests
 import requests_mock
 
-from api.common.vcr_helpers import vcr
+from django.conf import settings
+from django.test import TestCase
+
+from constance import config
+
 from api.common.exceptions import RequestFailureException
 from api.common.exceptions import UnknownResultException
+from api.common.vcr_helpers import vcr
 
 from ..binance_client import BinanceClient
-
 
 class BinanceTraderPriceCheckTestCase(TestCase):
     def setUp(self):
         self.test_data = {
             "fiat": "COP",
             "page": 1,
-            "rows": 10,
+            "rows": 3,
             "transAmount": 100000,
             "tradeType": "BUY",
             "asset": "USDT",

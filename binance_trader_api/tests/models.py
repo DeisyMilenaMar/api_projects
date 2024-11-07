@@ -57,8 +57,9 @@ class AdvertiserTestCase(TestCase):
 
     def test_month_finish_invalid_rate_limit(self):
         """Ensure that a month_finish_rate above 1 raises a ValidationError."""
+        advertiser = AdvertiserFactory()
+        advertiser.month_finish_rate=Decimal(10.99)
         with self.assertRaises(ValidationError) as cm:
-            advertiser = AdvertiserFactory(month_finish_rate=Decimal(10.99))
             advertiser.full_clean()
         self.assertIn("Ensure this value is less than or equal to 1", str(cm.exception))
 
@@ -94,9 +95,9 @@ class TransactionTestCase(TestCase):
 
     def test_transaction_status_choice(self):
         """Ensure that only valid status choices are allowed for Transaction."""
-        transaction = TransactionFactory(status=Transaction.ST_COMPLETED)
+        transaction = TransactionFactory()
         transaction.full_clean()
-        self.assertEqual(transaction.status, Transaction.ST_COMPLETED)
+        self.assertEqual(transaction.status, Transaction.ST_CREATED)
 
     def test_transaction_token_uniqueness(self):
         """Ensure that token_transaction is unique for each Transaction instance."""
@@ -106,10 +107,11 @@ class TransactionTestCase(TestCase):
 
     def test_transaction_creation_with_invalid_target_profit_percent(self):
         """Ensure that a negative target_profit_percent raises a ValidationError."""
+        transaction = TransactionFactory()
+        transaction.target_profit_percent=Decimal(-1)
         with self.assertRaises(ValidationError) as cm:
-            transaction = TransactionFactory(target_profit_percent=Decimal(-1))
             transaction.full_clean()
-        self.assertIn("Ensure this value is greater than or equal to 0.01.", str(cm.exception))
+        self.assertIn("Ensure this value is greater than or equal to 0.", str(cm.exception))
 
     def test_transaction_creation_with_invalid_status(self):
         """Ensure that an invalid status raises a ValidationError."""
@@ -182,10 +184,10 @@ class BinanceTraderRequestLogTestCase(TestCase):
     def test_binance_trader_request_log_creation_with_long_token(self):
         """Ensure that an idempotency_token exceeding the max length raises a ValidationError."""
         request_log = BinanceTraderRequestLog.objects.create(**self.valid_data)
+        request_log.idempotency_token = 'a' * 129
         with self.assertRaises(ValidationError) as cm:
-            request_log.idempotency_token = 'a' * 129
             request_log.full_clean()
-        self.assertIn("Ensure this value has at most 40 characters (it has 129).", str(cm.exception))
+        self.assertIn("Ensure this value has at most 50 characters (it has 129).", str(cm.exception))
 
     def test_create_valid_binance_trader_request_log(self):
         """Ensure that a BinanceTraderRequestLog instance with valid data is created successfully."""
