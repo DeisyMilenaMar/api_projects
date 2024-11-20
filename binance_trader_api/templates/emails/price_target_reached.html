@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Price Target Reached for Your Transaction!</title>
+</head>
+<body>
+  <h1>Congratulations, {{ user_name }}!</h1>
+  <p>
+    Your transaction has reached the target price of <strong>${{ target_price }}</strong>, which is a <strong>{{ target_profit_percent|floatformat:2 }}%</strong> profit from your original purchase price of <strong>${{ buy_price }}</strong>.
+  </p>
+  <p>
+    The advertisement you used was provided by the following Binance advertiser:
+  </p>
+  <ul>
+    <li>User Number: {{ advertiser_user_number }}</li>
+    <li>Nickname: {{ advertiser_nickname }}</li>
+    <li>Account Type: {{ advertiser_user_type }}</li>
+    <li>Monthly Completion Rate: {{ advertiser_month_finish_rate|floatformat:2 }}%</li>
+    <li>Positive Feedback Rate: {{ advertiser_positive_rate|floatformat:2 }}%</li>
+    <li>Monthly Orders: {{ advertiser_month_order_count }}</li>
+  </ul>
+  <p>
+    Thank you for using our Binance Trader API. If you have any questions or need further assistance, please don't hesitate to reach out.
+  </p>
+  <p>
+    Best regards,<br>
+    The Binance Trader API Team
+  </p>
+</body>
+</html>
