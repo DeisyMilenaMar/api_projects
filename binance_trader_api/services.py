@@ -75,6 +75,7 @@ class TransactionService:
             user=user,
             buy_price=data.get('buy_price', 0.0),
             buy_date=data.get('buy_date'),
+            usdt_amount_buy=data.get('usdt_amount_buy',0.0),
             target_profit_percent=data.get('target_profit_percent', 0.0),
             status=data.get('status', Transaction.ST_PENDING)
         )

@@ -1,4 +1,3 @@
-from datetime import datetime
 from decimal import Decimal
 from smtplib import SMTPException
 from unittest.mock import patch
@@ -237,7 +236,6 @@ class TestPriceMonitoringService(TestCase):
     def test_send_email_notification_failure_simple(self, mock_send_mail):
         """Ensure send_mail is called and raises SMTPException."""
         mock_send_mail.side_effect = SMTPException("SMTP error")
-        print(mock_send_mail) 
 
         user = User.objects.create(name="Test User", email="d2marug@gmail.com")
         transaction = Transaction.objects.create(
@@ -245,7 +243,7 @@ class TestPriceMonitoringService(TestCase):
             buy_price=Decimal('100.0'),
             target_profit_percent=Decimal('0.10'),
             usdt_amount_buy=Decimal(10),
-            buy_date=datetime.now()
+            buy_date=timezone.now()
         )
 
         advertiser_details = {"nickname": "Test Advertiser"}
@@ -269,7 +267,7 @@ class TestPriceMonitoringService(TestCase):
             buy_price=Decimal('100.0'),
             target_profit_percent=Decimal('0.10'),
             usdt_amount_buy=Decimal(10),
-            buy_date=datetime.now()
+            buy_date=timezone.now()
         )
         advertiser_details = {"nickname": "Test Advertiser"}
 
