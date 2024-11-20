@@ -215,4 +215,49 @@ CONSTANCE_CONFIG = {
         10,
         'Timeout in seconds for a response of BinanceTrader services'
     ),
+    'BINANCE_ROWS':(
+        3,
+        'Number of rows to retrieve in Binance API queries'
+    ),
+    'BINANCE_PAYTYPES':(
+        'BancolombiaSA,Nequi',
+        'Payment types for Binance transactions, separated by commas'
+    ),
+    'BINANCE_FIAT':(
+        'COP',
+        'Fiat currency to use for Binance transactions'
+    ),
+    'BINANCE_TRADE_TYPE':(
+        'BUY',
+        'Type of trade in Binance: BUY or SELL'
+    ),
+    'BINANCE_ASSET':(
+        'USDT',
+        'Asset to trade in Binance (e.g., USDT)'
+    ),
+    'BINANCE_FILTER_TYPE':(
+        'all',
+        'Filter type to apply in Binance'
+    ),
+    'BINANCE_PUBLISHER_TYPE':(
+        'merchant',
+        'Publisher type in Binance (e.g., merchant)'
+    ),
+    'BINANCE_CLASSIFIES':(
+        'mass,profession',
+        'Classifications for Binance transactions, separated by commas'
+    ),
+    'BINANCE_TRADER_SLEEP_SECS':(
+        5,
+        'Time in seconds to wait between price monitoring requests'
+    ),
 }
+
+# Email configuration using SMTP backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
+EMAIL_USE_TLS = True
+MAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') 
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

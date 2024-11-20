@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.core.validators import RegexValidator
 from django.core.validators import MinLengthValidator
 from django.core.validators import MinValueValidator
@@ -171,6 +172,14 @@ class Transaction(AutoCreatedUpdatedMixin):
     buy_date = models.DateTimeField(
         help_text="Date and time of purchase."
     )
+    usdt_amount_buy = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        default=Decimal(0),
+        help_text="Amount of USDT bought in the transaction."
+    )
+
     target_profit_percent = models.DecimalField(
         max_digits=10,
         decimal_places=2,

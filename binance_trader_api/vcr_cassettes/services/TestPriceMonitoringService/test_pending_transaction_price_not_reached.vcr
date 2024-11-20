@@ -1,0 +1,68 @@
+interactions:
+- request:
+    body: '{"fiat": "COP", "page": 1, "rows": 3, "transAmount": 16047020.87, "tradeType":
+      "BUY", "asset": "USDT", "countries": [], "proMerchantAds": false, "shieldMerchantAds":
+      false, "filterType": "all", "periods": [], "additionalKycVerifyFilter": 0, "publisherType":
+      "merchant", "payTypes": ["BancolombiaSA", "Nequi"], "classifies": ["mass", "profession"]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '347'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.32.3
+    method: POST
+    uri: https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search
+  response:
+    body:
+      string: '{"code":"000000","message":null,"messageDetail":null,"data":[{"adv":{"advNo":"12633814434778750976","classify":"profession","tradeType":"SELL","asset":"USDT","fiatUnit":"COP","advStatus":null,"priceType":null,"priceFloatingRatio":null,"rateFloatingRatio":null,"currencyRate":null,"price":"4276.98","initAmount":null,"surplusAmount":"14887.80","tradableQuantity":"14866.98","amountAfterEditing":null,"maxSingleTransAmount":"20000000","minSingleTransAmount":"3000000","buyerKycLimit":null,"buyerRegDaysLimit":null,"buyerBtcPositionLimit":null,"remarks":null,"autoReplyMsg":null,"payTimeLimit":15,"tradeMethods":[{"payId":null,"payMethodId":"","payType":"BancolombiaSA","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"BancolombiaSA","iconUrlColor":null,"tradeMethodName":"Bancolombia
+        S.A","tradeMethodShortName":"Bancolombia S.A","tradeMethodBgColor":"#283572"},{"payId":null,"payMethodId":"","payType":"DaviviendaSA","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"DaviviendaSA","iconUrlColor":null,"tradeMethodName":"Davivienda
+        S.A","tradeMethodShortName":"Davivienda S.A","tradeMethodBgColor":"#ED1C27"}],"userTradeCountFilterTime":null,"userBuyTradeCountMin":null,"userBuyTradeCountMax":null,"userSellTradeCountMin":null,"userSellTradeCountMax":null,"userAllTradeCountMin":null,"userAllTradeCountMax":null,"userTradeCompleteRateFilterTime":null,"userTradeCompleteCountMin":null,"userTradeCompleteRateMin":null,"userTradeVolumeFilterTime":null,"userTradeType":null,"userTradeVolumeMin":null,"userTradeVolumeMax":null,"userTradeVolumeAsset":null,"createTime":null,"advUpdateTime":null,"fiatVo":null,"assetVo":null,"advVisibleRet":null,"takerAdditionalKycRequired":0,"minFiatAmountForAdditionalKyc":null,"inventoryType":null,"offlineReason":null,"assetLogo":null,"assetScale":2,"fiatScale":2,"priceScale":2,"fiatSymbol":"COL$","isTradable":true,"dynamicMaxSingleTransAmount":"20000000","minSingleTransQuantity":"701.42","maxSingleTransQuantity":"4676.19","dynamicMaxSingleTransQuantity":"4676.19","commissionRate":"0.00140000","takerCommissionRate":null,"minTakerFee":null,"tradeMethodCommissionRates":null,"launchCountry":null,"abnormalStatusList":null,"closeReason":null,"storeInformation":null,"allowTradeMerchant":null,"adTradeInstructionTagInfoRets":null,"isSafePayment":false,"adAdditionalKycVerifyItems":null},"advertiser":{"userNo":"sd35f62c4d5d939fa8927c9e20558716b","realName":null,"nickName":"TransfServirapid","margin":null,"marginUnit":null,"orderCount":null,"monthOrderCount":2676,"monthFinishRate":0.999,"positiveRate":0.99874914,"advConfirmTime":null,"email":null,"registrationTime":null,"mobile":null,"userType":"merchant","tagIconUrls":[],"userGrade":3,"userIdentity":"MASS_MERCHANT","proMerchant":null,"badges":["Ordinary"],"isBlocked":false,"activeTimeInSecond":2}},{"adv":{"advNo":"13680380197403418624","classify":"profession","tradeType":"SELL","asset":"USDT","fiatUnit":"COP","advStatus":null,"priceType":null,"priceFloatingRatio":null,"rateFloatingRatio":null,"currencyRate":null,"price":"4279.80","initAmount":null,"surplusAmount":"8423.73","tradableQuantity":"8411.95","amountAfterEditing":null,"maxSingleTransAmount":"40000000","minSingleTransAmount":"800000","buyerKycLimit":null,"buyerRegDaysLimit":null,"buyerBtcPositionLimit":null,"remarks":null,"autoReplyMsg":null,"payTimeLimit":15,"tradeMethods":[{"payId":null,"payMethodId":"","payType":"Nequi","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"Nequi","iconUrlColor":null,"tradeMethodName":"Nequi","tradeMethodShortName":"Nequi","tradeMethodBgColor":"#FF2F73"},{"payId":null,"payMethodId":"","payType":"DaviviendaSA","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"DaviviendaSA","iconUrlColor":null,"tradeMethodName":"Davivienda
+        S.A","tradeMethodShortName":"Davivienda S.A","tradeMethodBgColor":"#ED1C27"},{"payId":null,"payMethodId":"","payType":"BancolombiaSA","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"BancolombiaSA","iconUrlColor":null,"tradeMethodName":"Bancolombia
+        S.A","tradeMethodShortName":"Bancolombia S.A","tradeMethodBgColor":"#283572"}],"userTradeCountFilterTime":null,"userBuyTradeCountMin":null,"userBuyTradeCountMax":null,"userSellTradeCountMin":null,"userSellTradeCountMax":null,"userAllTradeCountMin":null,"userAllTradeCountMax":null,"userTradeCompleteRateFilterTime":null,"userTradeCompleteCountMin":null,"userTradeCompleteRateMin":null,"userTradeVolumeFilterTime":null,"userTradeType":null,"userTradeVolumeMin":null,"userTradeVolumeMax":null,"userTradeVolumeAsset":null,"createTime":null,"advUpdateTime":null,"fiatVo":null,"assetVo":null,"advVisibleRet":null,"takerAdditionalKycRequired":0,"minFiatAmountForAdditionalKyc":null,"inventoryType":null,"offlineReason":null,"assetLogo":null,"assetScale":2,"fiatScale":2,"priceScale":2,"fiatSymbol":"COL$","isTradable":true,"dynamicMaxSingleTransAmount":"36001477","minSingleTransQuantity":"186.92","maxSingleTransQuantity":"9346.23","dynamicMaxSingleTransQuantity":"8411.95","commissionRate":"0.00140000","takerCommissionRate":null,"minTakerFee":null,"tradeMethodCommissionRates":null,"launchCountry":null,"abnormalStatusList":null,"closeReason":null,"storeInformation":null,"allowTradeMerchant":null,"adTradeInstructionTagInfoRets":null,"isSafePayment":false,"adAdditionalKycVerifyItems":null},"advertiser":{"userNo":"s78b02e0abe053dc786446aa2b5dd5944","realName":null,"nickName":"DON_TITO","margin":null,"marginUnit":null,"orderCount":null,"monthOrderCount":1784,"monthFinishRate":0.986,"positiveRate":0.99716312,"advConfirmTime":null,"email":null,"registrationTime":null,"mobile":null,"userType":"merchant","tagIconUrls":[],"userGrade":3,"userIdentity":"MASS_MERCHANT","proMerchant":null,"badges":["Ordinary"],"isBlocked":false,"activeTimeInSecond":236}},{"adv":{"advNo":"13691710432927121408","classify":"profession","tradeType":"SELL","asset":"USDT","fiatUnit":"COP","advStatus":null,"priceType":null,"priceFloatingRatio":null,"rateFloatingRatio":null,"currencyRate":null,"price":"4280.00","initAmount":null,"surplusAmount":"9376.16","tradableQuantity":"9361.18","amountAfterEditing":null,"maxSingleTransAmount":"45000004","minSingleTransAmount":"3000000","buyerKycLimit":null,"buyerRegDaysLimit":null,"buyerBtcPositionLimit":null,"remarks":null,"autoReplyMsg":null,"payTimeLimit":15,"tradeMethods":[{"payId":null,"payMethodId":"","payType":"BancolombiaSA","payAccount":null,"payBank":null,"paySubBank":null,"identifier":"BancolombiaSA","iconUrlColor":null,"tradeMethodName":"Bancolombia
+        S.A","tradeMethodShortName":"Bancolombia S.A","tradeMethodBgColor":"#283572"}],"userTradeCountFilterTime":null,"userBuyTradeCountMin":null,"userBuyTradeCountMax":null,"userSellTradeCountMin":null,"userSellTradeCountMax":null,"userAllTradeCountMin":null,"userAllTradeCountMax":null,"userTradeCompleteRateFilterTime":null,"userTradeCompleteCountMin":null,"userTradeCompleteRateMin":null,"userTradeVolumeFilterTime":null,"userTradeType":null,"userTradeVolumeMin":null,"userTradeVolumeMax":null,"userTradeVolumeAsset":null,"createTime":null,"advUpdateTime":null,"fiatVo":null,"assetVo":null,"advVisibleRet":null,"takerAdditionalKycRequired":1,"minFiatAmountForAdditionalKyc":null,"inventoryType":null,"offlineReason":null,"assetLogo":null,"assetScale":2,"fiatScale":2,"priceScale":2,"fiatSymbol":"COL$","isTradable":true,"dynamicMaxSingleTransAmount":"40065859","minSingleTransQuantity":"700.93","maxSingleTransQuantity":"10514.01","dynamicMaxSingleTransQuantity":"9361.18","commissionRate":"0.00160000","takerCommissionRate":null,"minTakerFee":null,"tradeMethodCommissionRates":null,"launchCountry":null,"abnormalStatusList":null,"closeReason":null,"storeInformation":null,"allowTradeMerchant":null,"adTradeInstructionTagInfoRets":null,"isSafePayment":false,"adAdditionalKycVerifyItems":null},"advertiser":{"userNo":"sad36ab299f7c39fe80d59f9df37145ec","realName":null,"nickName":"KINGDOM-GROUP","margin":null,"marginUnit":null,"orderCount":null,"monthOrderCount":345,"monthFinishRate":0.894,"positiveRate":1.00000000,"advConfirmTime":null,"email":null,"registrationTime":null,"mobile":null,"userType":"merchant","tagIconUrls":[],"userGrade":3,"userIdentity":"MASS_MERCHANT","proMerchant":null,"badges":["Ordinary"],"isBlocked":false,"activeTimeInSecond":1900}}],"total":12,"success":true}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1457'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 18 Nov 2024 14:56:14 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains
+      X-Amz-Cf-Id:
+      - P5iJMOYs0LtDKpy9a9jLvUGwrFh-b8UwbJ_Qfz3ACBn98amm_6WTww==
+      X-Amz-Cf-Pop:
+      - BOG50-P2
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      content-encoding:
+      - gzip
+      vary:
+      - accept-encoding
+      via:
+      - 1.1 tesla, 1.1 8c0bde47bf09c95d1b9da4a65b9fcda0.cloudfront.net (CloudFront)
+      x-http2-stream-id:
+      - '1151559'
+      x-http2-stream-weight:
+      - '16'
+    status:
+      code: 200
+      message: OK
+version: 1
