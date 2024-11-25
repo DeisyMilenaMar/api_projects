@@ -61,7 +61,7 @@ class TransactionService:
         Create a new transaction with the provided data.
         """
 
-        user_token=data.get('user_token', '')
+        user_token = data.get('user_token', '')
         user = User.objects.filter(user_token=user_token).first()
 
         if not user:

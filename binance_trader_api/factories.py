@@ -20,7 +20,6 @@ class UserFactory(DjangoModelFactory):
     """Factory for User model with unique token and randomized data."""
     name = Faker('name')
     email = Faker('email')
-    user_token = factory.LazyFunction(lambda: generate_token(prefix='usr', with_date=True))
 
     class Meta:
         model = User
