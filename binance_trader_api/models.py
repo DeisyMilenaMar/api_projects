@@ -175,7 +175,7 @@ class Transaction(AutoCreatedUpdatedMixin):
     usdt_amount_buy = models.DecimalField(
         max_digits=15,
         decimal_places=2,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(Decimal(0))],
         default=Decimal(0),
         help_text="Amount of USDT bought in the transaction."
     )
@@ -184,8 +184,8 @@ class Transaction(AutoCreatedUpdatedMixin):
         max_digits=10,
         decimal_places=2,
         validators=[
-            MinValueValidator(0),
-            MaxValueValidator(1)
+            MinValueValidator(Decimal(0)),
+            MaxValueValidator(Decimal(1))
         ],
         help_text="Target profit percentage for the transaction (e.g., 15.00 for 15%)."
     )

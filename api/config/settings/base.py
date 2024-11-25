@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import tempfile
 from django.core.exceptions import ImproperlyConfigured
+from celery.schedules import crontab
 
 # Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,6 +81,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "constance",
     "constance.backends.database",
+    "rest_framework",
 
     # Local apps
     "binance_trader_api",
@@ -178,25 +180,26 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery Configuration
 CELERY_BROKER_URL = getenvvar('CELERY_BROKER_URL', 'redis://redis:6379/0')  # Redis URL
-CELERY_RESULT_BACKEND = getenvvar('CELERY_RESULT_BACKEND', 'django-db')  # Django DB as result backend
-
-# Celery task settings
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = getenvvar('django-db', 'CELERY_RESULT_BACKEND')  # Django DB as result backend
 
 # Celery broker connection retry settings
 CELERY_BROKER_CONNECTION_MAX_RETRIES = int(getenvvar('CELERY_BROKER_CONNECTION_MAX_RETRIES', 5))
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_TIMEOUT = int(getenvvar('CELERY_BROKER_CONNECTION_TIMEOUT', 30))
 
 # Enable Eager mode for development (tasks run locally without a worker)
-CELERY_TASK_ALWAYS_EAGER = getenvvar('CELERY_TASK_ALWAYS_EAGER', 'False').lower() in ['true', '1', 't']
+CELERY_TASK_ALWAYS_EAGER = getenvvar('CELERY_TASK_ALWAYS_EAGER', 'False')
 
 # Additional Celery settings
 CELERY_RESULT_EXTENDED = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 CELERY_TASK_TIME_LIMIT = int(getenvvar('CELERY_TASK_TIME_LIMIT', 300))  # Task timeout in seconds
+
+CELERY_BEAT_SCHEDULE = {
+    'check-price-task-every-5-minutes': {
+        'task': 'binance_trader_api.tasks.check_price_task',
+        'schedule': crontab(minute='*/5'),  # every five minutes
+    }
+}
 
 # Automatically discover tasks in the Binance Trader app
 CELERY_IMPORTS = ('binance_trader_api.tasks',)
