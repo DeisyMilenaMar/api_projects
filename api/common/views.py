@@ -14,14 +14,31 @@ class BaseServiceView(APIView):
     response_serializer = None
     http_method = None
 
+    def get_extra_context(self, **kwargs):
+        """
+        Return additional context for serializers.
+        """
+        return kwargs
+
     def validate_request(self, request):
         """
         Validate request data using the defined request serializer.
         """
+ 
         if not self.request_serializer:
-            return request.data
+            return request.query_params if request.method == 'GET' else request.data
 
-        serializer = self.request_serializer(data=request.data, context={"request": request})
+        if request.method == 'GET':
+            data = request.query_params
+        else:
+            data = request.data
+
+        if hasattr(data, 'dict'):
+            return data.dict()
+
+        context = self.get_extra_context(view=self, request=request)
+        serializer = self.request_serializer(data=data,  context=context)
+
         serializer.is_valid(raise_exception=True)
         return serializer.validated_data
 

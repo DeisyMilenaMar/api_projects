@@ -112,3 +112,126 @@ class TransactionCreateViewTests(APITestCase):
         self.assertEqual(Transaction.objects.count(), 0)
         self.assertIn('Service error', str(response.data))
 
+
+class UserCreateViewTest(APITestCase):
+    """Test cases for UserCreateView."""
+    def setUp(self):
+        self.valid_payload = {
+            'name': 'John Doe',
+            'email': 'john.doe@example.com',
+        }
+        self.url = reverse('binance_trader_api:user-create')
+
+    def test_create_user_success(self):
+        """Test successful user creation."""
+        response = self.client.post(
+            self.url,
+            self.valid_payload,
+            format='json'
+        )
+
+        json_response = response.json()
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(json_response['name'], self.valid_payload['name'])
+        self.assertEqual(json_response['email'], self.valid_payload['email'])
+        self.assertIn('user_token', response.data)
+        
+        self.assertTrue(
+            User.objects.filter(email=self.valid_payload['email']).exists()
+        )
+
+    def test_create_user_invalid_email(self):
+        """Test user creation with invalid email."""
+        invalid_payload = {
+            'name': 'John Doe',
+            'email': 'invalid-email'
+        }
+
+        response = self.client.post(
+            self.url,
+            invalid_payload,
+            format='json'
+        )
+        json_response = response.json()
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('error', json_response)
+        self.assertIn('Enter a valid email address', json_response['error'])
+
+    def test_create_user_missing_required_fields(self):
+        """Test user creation with missing required fields."""
+        incomplete_payload = {'name': 'John Doe'}
+        response = self.client.post(self.url, incomplete_payload, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        error_content = response.json().get('error', {})
+        self.assertIn('email', error_content)
+        self.assertIn('This field is required.', str(error_content))
+
+    
+class UserGetViewTest(APITestCase):
+    """Test cases for UserGetView."""
+
+    def setUp(self):
+        """Set up test data."""
+        User.objects.all().delete() 
+        self.user = UserFactory()
+        self.url = reverse('binance_trader_api:user-get')
+        self.valid_params = {
+            'name': self.user.name, 
+            'email': self.user.email,
+            'user_token': self.user.user_token
+        }
+
+    def test_get_user_success(self):
+        """Test successful user retrieval."""
+        response = self.client.get(self.url, self.valid_params)
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        json_response = response.json()
+
+        self.assertEqual(json_response['name'], self.user.name)
+        self.assertEqual(json_response['email'], self.user.email)
+        self.assertEqual(json_response['user_token'], self.user.user_token)
+
+    def test_get_user_not_found(self):
+        """Test user retrieval with non-existent user."""
+        invalid_params = {
+            'name': 'Nonexistent User',
+            'email': 'nonexistent@example.com',
+            'user_token': 'invalid-token'
+        }
+
+        response = self.client.get(self.url, invalid_params)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('error', response.json())
+        self.assertEqual(response.json()['error'], 'The response content must be rendered before it can be iterated over.')
+
+
+    @patch('binance_trader_api.views.logger') 
+    def test_get_user_logging_on_not_found(self, mock_logger):
+        """Test that proper logging occurs when user is not found."""
+        invalid_params = {
+            'name': 'Nonexistent User',
+            'email': 'nonexistent@example.com',
+            'user_token': 'invalid-token'
+        }
+        response = self.client.get(self.url, invalid_params)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        mock_logger.warning.assert_called_once()
+
+    def test_get_user_missing_parameters(self):
+        """Test user retrieval with missing parameters."""
+        incomplete_params = {
+            'name': 'John Doe',
+            'email': 'john.doe@example.com'
+        }
+
+        response = self.client.get(self.url, incomplete_params)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('error', response.json())
+        self.assertEqual(response.json()['error'], 'The response content must be rendered before it can be iterated over.')
+
