@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from binance_trader_api.models import Transaction
+from binance_trader_api.models import User
 
 
 class TransactionRequestSerializer(serializers.ModelSerializer):
@@ -29,3 +30,22 @@ class TransactionResponseSerializer(serializers.ModelSerializer):
             "target_profit_percent",
             "status"
         ]
+
+
+class UserCreateRequestSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user creation requests.
+    Validates the incoming user details.
+    """
+    class Meta:
+        model = User
+        fields = ['name', 'email']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user retrieval requests.
+    """
+    class Meta:
+        model = User
+        fields = ['name', 'email', 'user_token']
