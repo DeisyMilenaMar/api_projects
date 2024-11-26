@@ -9,9 +9,7 @@ from api.common.views import BaseServiceView
 from binance_trader_api.serlializers import TransactionRequestSerializer
 from binance_trader_api.serlializers import TransactionResponseSerializer
 from binance_trader_api.serlializers import UserCreateRequestSerializer
-from binance_trader_api.serlializers import  UserCreateResponseSerializer
-from binance_trader_api.serlializers import UserGetRequestSerializer
-from binance_trader_api.serlializers import  UserGetResponseSerializer
+from binance_trader_api.serlializers import  UserSerializer
 
 from binance_trader_api.models import User
 
@@ -56,7 +54,7 @@ class UserCreateView(BaseServiceView):
     Inherits common validation and error handling from BaseServiceView.
     """
     request_serializer = UserCreateRequestSerializer
-    response_serializer = UserCreateResponseSerializer
+    response_serializer = UserSerializer
     http_method = 'POST'
     
     def process_request(self, validated_data, request):
@@ -80,8 +78,8 @@ class UserGetView(BaseServiceView):
     """
     API View for retrieving user details.
     """
-    request_serializer = UserGetRequestSerializer
-    response_serializer = UserGetResponseSerializer
+    request_serializer = UserSerializer
+    response_serializer = UserSerializer
     http_method = 'GET'
         
     def process_request(self, validated_data, request):

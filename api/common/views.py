@@ -52,6 +52,9 @@ class BaseServiceView(APIView):
         """
         Handle the request: validate data, process logic, and handle errors.
         """
+        if self.http_method != method:
+            return self.http_method_not_allowed(request)
+
         try:
             data = self.validate_request(request)
             logger.info(f"{method} request validated successfully.")
