@@ -29,7 +29,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U ${POSTGRES_USER} || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -h ${POSTGRES_DB_HOST} -p ${POSTGRES_DB_PORT} -U ${POSTGRES_DB_USER} || exit 1"]
       interval: 10s
       retries: 5
     stop_grace_period: 1m
