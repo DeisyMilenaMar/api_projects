@@ -10,6 +10,7 @@ fi
 # Function to check if all required database variables are defined
 check_db_vars() {
     local prefix="$1"
+    echo " $prefix ***************&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%%%%%%%%%%%%%%"
     local required_vars=(
         "${prefix}_DB_NAME"
         "${prefix}_DB_USER"
