@@ -59,7 +59,7 @@ create_db_and_user() {
 
 # Create main database
 if check_db_vars "POSTGRES"; then
-    create_db_and_user "$POSTGRES_DB_NAME" "$POSTGRES_USER" "$POSTGRES_PASSWORD" "$POSTGRES_HOST" "$POSTGRES_PORT"
+    create_db_and_user "$POSTGRES_DB_NAME" "$POSTGRES_DB_USER" "$POSTGRES_DB_PASSWORD" "$POSTGRES_DB_HOST" "$POSTGRES_DB_PORT"
 else
     echo "Error: Failed to create main database variables."
     exit 1

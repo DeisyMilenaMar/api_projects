@@ -49,10 +49,10 @@ jobs:
 
       - name: Generate .env file
         env:
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB_HOST: ${{ secrets.POSTGRES_DB_HOST }}
+          POSTGRES_DB_PORT: ${{ secrets.POSTGRES_DB_PORT }}
+          POSTGRES_DB_USER: ${{ secrets.POSTGRES_DB_USER }}
+          POSTGRES_DB_PASSWORD: ${{ secrets.POSTGRES_DB_PASSWORD }}
           POSTGRES_DB_NAME: ${{ secrets.POSTGRES_DB_NAME }}
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
           BINANCE_TRADER_API_DB_NAME: ${{ secrets.BINANCE_TRADER_API_DB_NAME }}
@@ -65,10 +65,10 @@ jobs:
           DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
 
         run: |
-          echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
-          echo "POSTGRES_PORT=${POSTGRES_PORT}" >> .env
-          echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
-          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+          echo "POSTGRES_DB_HOST=${POSTGRES_DB_HOST}" >> .env
+          echo "POSTGRES_DB_PORT=${POSTGRES_DB_PORT}" >> .env
+          echo "POSTGRES_DB_USER=${POSTGRES_DB_USER}" >> .env
+          echo "POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}" >> .env
           echo "POSTGRES_DB_NAME=${POSTGRES_DB_NAME}" >> .env
           echo "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}" >> .env
           echo "BINANCE_TRADER_API_DB_NAME=${BINANCE_TRADER_API_DB_NAME}" >> .env
