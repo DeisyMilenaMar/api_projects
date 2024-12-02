@@ -61,6 +61,9 @@ jobs:
           BINANCE_TRADER_API_DB_HOST: ${{ secrets.BINANCE_TRADER_API_DB_HOST }}
           BINANCE_TRADER_API_DB_PORT: ${{ secrets.BINANCE_TRADER_API_DB_PORT }}
           BINANCE_TRADER_API_HOST: ${{ secrets.BINANCE_TRADER_API_HOST }}
+          C2C_SEARCH_ENDPOINT: ${{ secrets.C2C_SEARCH_ENDPOINT }}
+          DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
+
         run: |
           echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
           echo "POSTGRES_PORT=${POSTGRES_PORT}" >> .env
@@ -73,7 +76,10 @@ jobs:
           echo "BINANCE_TRADER_API_DB_PASSWORD=${BINANCE_TRADER_API_DB_PASSWORD}" >> .env
           echo "BINANCE_TRADER_API_DB_HOST=${BINANCE_TRADER_API_DB_HOST}" >> .env
           echo "BINANCE_TRADER_API_DB_PORT=${BINANCE_TRADER_API_DB_PORT}" >> .env
-          echo "BINANCE_TRADER_API_HOST=${BINANCE_TRADER_API_HOST}" >> .env 
+          echo "BINANCE_TRADER_API_HOST=${BINANCE_TRADER_API_HOST}" >> .env
+          echo "C2C_SEARCH_ENDPOINT=${C2C_SEARCH_ENDPOINT}" >> .env
+          echo "DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}" >> .env 
+
 
       - name: Verify .env file
         run: cat .env
