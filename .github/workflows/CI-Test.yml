@@ -54,15 +54,44 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          BINANCE_TRADER_API_DB_NAME: ${{ secrets.BINANCE_TRADER_API_DB_NAME }}
+          BINANCE_TRADER_API_DB_USER: ${{ secrets.BINANCE_TRADER_API_DB_USER }}
+          BINANCE_TRADER_API_DB_PASSWORD: ${{ secrets.BINANCE_TRADER_API_DB_PASSWORD }}
+          BINANCE_TRADER_API_DB_HOST: ${{ secrets.BINANCE_TRADER_API_DB_HOST }}
+          BINANCE_TRADER_API_DB_PORT: ${{ secrets.BINANCE_TRADER_API_DB_PORT }}
         run: |
           echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
           echo "POSTGRES_PORT=${POSTGRES_PORT}" >> .env
           echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
           echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
           echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+          echo "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}" >> .env
+          echo "BINANCE_TRADER_API_DB_NAME=${BINANCE_TRADER_API_DB_NAME}" >> .env
+          echo "BINANCE_TRADER_API_DB_USER=${BINANCE_TRADER_API_DB_USER}" >> .env
+          echo "BINANCE_TRADER_API_DB_PASSWORD=${BINANCE_TRADER_API_DB_PASSWORD}" >> .env
+          echo "BINANCE_TRADER_API_DB_HOST=${BINANCE_TRADER_API_DB_HOST}" >> .env
+          echo "BINANCE_TRADER_API_DB_PORT=${BINANCE_TRADER_API_DB_PORT}" >> .env
 
       - name: Verify .env file
         run: cat .env
+
+      - name: Make scripts executable
+        run: |
+          chmod +x ./scripts/entrypoint.sh
+          chmod +x ./scripts/create-dbs.sh
+          chmod +x ./scripts/start
+      
+      - name: Build and start services
+        run: |
+          docker-compose build
+          docker-compose up -d
+          sleep 10
+
+      - name: Setup database and run tests
+        run: |
+          docker-compose run --rm web ./scripts/create-dbs.sh
+          docker-compose run --rm web ./scripts/entrypoint.sh
 
       - name: Run Django tests with retry
         uses: nick-invision/retry@v2
