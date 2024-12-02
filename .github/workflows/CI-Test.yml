@@ -60,6 +60,7 @@ jobs:
           BINANCE_TRADER_API_DB_PASSWORD: ${{ secrets.BINANCE_TRADER_API_DB_PASSWORD }}
           BINANCE_TRADER_API_DB_HOST: ${{ secrets.BINANCE_TRADER_API_DB_HOST }}
           BINANCE_TRADER_API_DB_PORT: ${{ secrets.BINANCE_TRADER_API_DB_PORT }}
+          BINANCE_TRADER_API_HOST: ${{ secrets.BINANCE_TRADER_API_HOST }}
         run: |
           echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
           echo "POSTGRES_PORT=${POSTGRES_PORT}" >> .env
@@ -72,6 +73,7 @@ jobs:
           echo "BINANCE_TRADER_API_DB_PASSWORD=${BINANCE_TRADER_API_DB_PASSWORD}" >> .env
           echo "BINANCE_TRADER_API_DB_HOST=${BINANCE_TRADER_API_DB_HOST}" >> .env
           echo "BINANCE_TRADER_API_DB_PORT=${BINANCE_TRADER_API_DB_PORT}" >> .env
+          echo "BINANCE_TRADER_API_HOST=${BINANCE_TRADER_API_HOST}" >> .env 
 
       - name: Verify .env file
         run: cat .env
