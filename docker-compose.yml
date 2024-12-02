@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     environment:
-      - DJANGO_SETTINGS_MODULE=api.config.settings.local
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
       - PYTHONPATH=/API_PROJECTS/api
     depends_on:
       - db

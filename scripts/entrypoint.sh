@@ -10,10 +10,10 @@ done
 >&2 echo "Postgres is up - executing command"
 
 # Run migrations
-python manage.py migrate
+python manage.py migrate --settings=api.config.settings.base
 
 # Collect static files only if using the production settings.
-if [ "$DJANGO_SETTINGS_MODULE" = "api.config.settings.prod" ]; then
+if [ "$DJANGO_SETTINGS_MODULE" = "api.config.settings.base" ]; then
     python manage.py collectstatic --noinput --clear
 fi
 
