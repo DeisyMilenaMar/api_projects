@@ -1,32 +1,34 @@
 from decimal import Decimal
 
-# Django imports
-from django.test import TestCase
 from django.core.exceptions import ValidationError
 
+# Django imports
+from django.test import TestCase
+
 # Factory imports
-from binance_trader_api.factories import UserFactory
-from binance_trader_api.factories import AdvertiserFactory
 from binance_trader_api.factories import AdvertisementFactory
-from binance_trader_api.factories import TransactionFactory
+from binance_trader_api.factories import AdvertiserFactory
 from binance_trader_api.factories import NotificationFactory
+from binance_trader_api.factories import TransactionFactory
+from binance_trader_api.factories import UserFactory
 
 # Model imports
-from binance_trader_api.models import User
-from binance_trader_api.models import Advertiser
 from binance_trader_api.models import Advertisement
-from binance_trader_api.models import Transaction
-from binance_trader_api.models import Notification
+from binance_trader_api.models import Advertiser
 from binance_trader_api.models import BinanceTraderRequestLog
+from binance_trader_api.models import Notification
+from binance_trader_api.models import Transaction
+from binance_trader_api.models import User
 
 
 class UserTestCase(TestCase):
     """Tests for the User model."""
 
     def test_user_creation_with_short_name(self):
-        """Ensure that creating a user with a name shorter than 2 characters raises a ValidationError."""
+        """Ensure that creating a user with a name shorter than 2
+        characters raises a ValidationError."""
         with self.assertRaises(ValidationError) as cm:
-            user = UserFactory(name='J')
+            user = UserFactory(name="J")
             user.full_clean()
         self.assertIn("Ensure this value has at least 2 characters", str(cm.exception))
 
@@ -58,7 +60,7 @@ class AdvertiserTestCase(TestCase):
     def test_month_finish_invalid_rate_limit(self):
         """Ensure that a month_finish_rate above 1 raises a ValidationError."""
         advertiser = AdvertiserFactory()
-        advertiser.month_finish_rate=Decimal(10.99)
+        advertiser.month_finish_rate = Decimal(10.99)
         with self.assertRaises(ValidationError) as cm:
             advertiser.full_clean()
         self.assertIn("Ensure this value is less than or equal to 1", str(cm.exception))
@@ -103,25 +105,32 @@ class TransactionTestCase(TestCase):
         """Ensure that token_transaction is unique for each Transaction instance."""
         transaction1 = TransactionFactory()
         transaction2 = TransactionFactory()
-        self.assertNotEqual(transaction1.token_transaction, transaction2.token_transaction)
+        self.assertNotEqual(
+            transaction1.token_transaction, transaction2.token_transaction
+        )
 
     def test_transaction_creation_with_invalid_target_profit_percent(self):
         """Ensure that a negative target_profit_percent raises a ValidationError."""
         transaction = TransactionFactory()
-        transaction.target_profit_percent=Decimal(-1)
+        transaction.target_profit_percent = Decimal(-1)
         with self.assertRaises(ValidationError) as cm:
             transaction.full_clean()
-        self.assertIn("Ensure this value is greater than or equal to 0.", str(cm.exception))
+        self.assertIn(
+            "Ensure this value is greater than or equal to 0.", str(cm.exception)
+        )
 
     def test_transaction_creation_with_invalid_status(self):
         """Ensure that an invalid status raises a ValidationError."""
         with self.assertRaises(ValidationError) as cm:
-            transaction = TransactionFactory(status='invalid')
+            transaction = TransactionFactory(status="invalid")
             transaction.full_clean()
         self.assertIn("Value 'invalid' is not a valid choice.", str(cm.exception))
 
     def test_create_valid_transaction(self):
-        """Ensure that a Transaction instance with valid data is created successfully."""
+        """
+        Ensure that a Transaction instance with
+        valid data is created successfully.
+        """
         transaction = TransactionFactory()
         self.assertIsInstance(transaction, Transaction)
         self.assertIsInstance(transaction.user, User)
@@ -144,13 +153,15 @@ class NotificationTestCase(TestCase):
         self.assertIsNotNone(notification.notified_at)
 
     def test_foreign_key_relationship(self):
-        """Ensure that a Notification instance has a valid foreign key to a Transaction and User."""
+        """Ensure that a Notification instance has a valid foreign
+        key to a Transaction and User."""
         notification = NotificationFactory()
         self.assertIsInstance(notification.transaction, Transaction)
         self.assertIsInstance(notification.user, User)
 
     def test_create_valid_notification(self):
-        """Ensure that a Notification instance with valid data is created successfully."""
+        """Ensure that a Notification instance with valid
+        data is created successfully."""
         notification = NotificationFactory()
         self.assertIsInstance(notification, Notification)
         self.assertIsInstance(notification.user, User)
@@ -170,7 +181,7 @@ class BinanceTraderRequestLogTestCase(TestCase):
             "res_http_body": {"result": "success"},
             "res_http_code": 200,
             "res_result_message": "Operation completed successfully",
-            "res_result_code": "200_OK"
+            "res_result_code": "200_OK",
         }
 
     def test_binance_trader_request_log_creation_with_invalid_slug(self):
@@ -182,20 +193,33 @@ class BinanceTraderRequestLogTestCase(TestCase):
         self.assertIn("Value 'invalid_slug' is not a valid choice.", str(cm.exception))
 
     def test_binance_trader_request_log_creation_with_long_token(self):
-        """Ensure that an idempotency_token exceeding the max length raises a ValidationError."""
+        """Ensure that an idempotency_token exceeding the max
+        length raises a ValidationError."""
         request_log = BinanceTraderRequestLog.objects.create(**self.valid_data)
-        request_log.idempotency_token = 'a' * 129
+        request_log.idempotency_token = "a" * 129
         with self.assertRaises(ValidationError) as cm:
             request_log.full_clean()
-        self.assertIn("Ensure this value has at most 50 characters (it has 129).", str(cm.exception))
+        self.assertIn(
+            "Ensure this value has at most 50 characters (it has 129).",
+            str(cm.exception),
+        )
 
     def test_create_valid_binance_trader_request_log(self):
-        """Ensure that a BinanceTraderRequestLog instance with valid data is created successfully."""
+        """Ensure that a BinanceTraderRequestLog instance
+        with valid data is created successfully."""
         request_log = BinanceTraderRequestLog.objects.create(**self.valid_data)
-        self.assertEqual(request_log.idempotency_token, self.valid_data["idempotency_token"])
-        self.assertEqual(request_log.req_service_slug, self.valid_data["req_service_slug"])
+        self.assertEqual(
+            request_log.idempotency_token, self.valid_data["idempotency_token"]
+        )
+        self.assertEqual(
+            request_log.req_service_slug, self.valid_data["req_service_slug"]
+        )
         self.assertEqual(request_log.req_http_body, self.valid_data["req_http_body"])
         self.assertEqual(request_log.res_http_body, self.valid_data["res_http_body"])
         self.assertEqual(request_log.res_http_code, self.valid_data["res_http_code"])
-        self.assertEqual(request_log.res_result_message, self.valid_data["res_result_message"])
-        self.assertEqual(request_log.res_result_code, self.valid_data["res_result_code"])
+        self.assertEqual(
+            request_log.res_result_message, self.valid_data["res_result_message"]
+        )
+        self.assertEqual(
+            request_log.res_result_code, self.valid_data["res_result_code"]
+        )
