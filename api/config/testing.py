@@ -1,5 +1,5 @@
-from fnmatch import fnmatch
 import unittest
+from fnmatch import fnmatch
 
 from django.test.runner import DiscoverRunner
 
@@ -10,15 +10,15 @@ class TestLoader(unittest.TestLoader):
 
 
 class DirBasedTestRunner(DiscoverRunner):
-
     test_loader = TestLoader()
 
     def __init__(self, *args, **kwargs):
-        kwargs['pattern'] = '*/tests/*.py'
+        kwargs["pattern"] = "*/tests/*.py"
         super().__init__(*args, **kwargs)
 
     def setup_test_environment(self, *args, **kwargs):
         from django.apps import apps
+
         self.unmanaged_models = [
             model for model in apps.get_models() if not model._meta.managed
         ]
