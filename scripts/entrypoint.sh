@@ -13,9 +13,9 @@ done
 python manage.py migrate --settings=api.config.settings.base
 
 # Collect static files only if using the production settings.
-if [ "$DJANGO_SETTINGS_MODULE" = "api.config.settings.base" ]; then
-    python manage.py collectstatic --noinput --clear
-fi
+# if [ "$DJANGO_SETTINGS_MODULE" = "api.config.settings.base" ]; then
+#     python manage.py collectstatic --noinput --clear
+# fi
 
 # Execute the command passed to the entrypoint
 exec "$@"
