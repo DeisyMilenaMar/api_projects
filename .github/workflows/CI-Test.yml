@@ -112,7 +112,7 @@ jobs:
             
       - name: Generate test coverage
         run: |
-          docker-compose run --rm web bash -c "
+          docker-compose run --rm --user root web bash -c "
             apt-get update && \
             apt-get install -y python3-pip && \
             pip install coverage && \
