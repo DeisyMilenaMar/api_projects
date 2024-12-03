@@ -113,7 +113,6 @@ jobs:
       - name: Generate test coverage
         run: |
           docker-compose run --rm web bash -c "
-            sudo pip install coverage &&
             coverage run manage.py test binance_trader_api/tests/ &&
             coverage report &&
             coverage html"
