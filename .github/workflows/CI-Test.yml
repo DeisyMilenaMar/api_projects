@@ -113,11 +113,13 @@ jobs:
       - name: Generate test coverage
         run: |
           docker-compose run --rm web bash -c "
+            python -m venv .venv &&
+            source .venv/bin/activate &&
             pip install coverage &&
             coverage run manage.py test binance_trader_api/tests/ &&
             coverage report &&
             coverage html"
-            
+                  
       - name: Upload test coverage
         uses: actions/upload-artifact@v3
         with:
