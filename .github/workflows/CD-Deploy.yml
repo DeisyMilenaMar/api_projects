@@ -1,0 +1,43 @@
+name: Deploy to Android Server
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Deploy to Android Server
+      uses: appleboy/ssh-action@v0.1.9
+      with:
+        host: ${{ secrets.ANDROID_SERVER_HOST }}
+        username: ${{ secrets.ANDROID_SERVER_USER }}
+        password: ${{ secrets.ANDROID_SERVER_PASSWORD }} # Or use a private key
+        port: ${{ secrets.ANDROID_SERVER_PORT }}
+        script: |
+          # Export environment variables
+          export POSTGRES_DB_HOST=${{ secrets.POSTGRES_DB_HOST }}
+          export POSTGRES_DB_PORT=${{ secrets.POSTGRES_DB_PORT }}
+          export POSTGRES_DB_USER=${{ secrets.POSTGRES_DB_USER }}
+          export POSTGRES_DB_PASSWORD=${{ secrets.POSTGRES_DB_PASSWORD }}
+          export POSTGRES_DB_NAME=${{ secrets.POSTGRES_DB_NAME }}
+          export DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+          export BINANCE_TRADER_API_DB_NAME=${{ secrets.BINANCE_TRADER_API_DB_NAME }}
+          export BINANCE_TRADER_API_DB_USER=${{ secrets.BINANCE_TRADER_API_DB_USER }}
+          export BINANCE_TRADER_API_DB_PASSWORD=${{ secrets.BINANCE_TRADER_API_DB_PASSWORD }}
+          export BINANCE_TRADER_API_DB_HOST=${{ secrets.BINANCE_TRADER_API_DB_HOST }}
+          export BINANCE_TRADER_API_DB_PORT=${{ secrets.BINANCE_TRADER_API_DB_PORT }}
+          export BINANCE_TRADER_API_HOST=${{ secrets.BINANCE_TRADER_API_HOST }}
+          export C2C_SEARCH_ENDPOINT=${{ secrets.C2C_SEARCH_ENDPOINT }}
+          export DEFAULT_FROM_EMAIL=${{ secrets.DEFAULT_FROM_EMAIL }}
+
+          # Navigate to the project directory and deploy
+          cd ~/my_django_project
+          ./deploy.sh
+
