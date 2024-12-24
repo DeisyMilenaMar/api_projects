@@ -79,6 +79,7 @@ jobs:
           echo "BINANCE_TRADER_API_HOST=${BINANCE_TRADER_API_HOST}" >> .env
           echo "C2C_SEARCH_ENDPOINT=${C2C_SEARCH_ENDPOINT}" >> .env
           echo "DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}" >> .env 
+          echo "DJANGO_SECRET_KEY is ${{ secrets.DJANGO_SECRET_KEY }}"
 
 
       - name: Verify .env file
