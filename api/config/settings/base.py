@@ -67,7 +67,7 @@ LOGGING = {
 # Security Settings
 SECRET_KEY = getenvvar("DJANGO_SECRET_KEY")
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getenvvar("DJANGO_ALLOWED_HOSTS", "").split(",") if getenvvar("DJANGO_ALLOWED_HOSTS", "") else []
 
 # Application definition
 INSTALLED_APPS = [
