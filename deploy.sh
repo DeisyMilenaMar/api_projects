@@ -22,8 +22,8 @@ if [ -f "$ENV_FILE" ]; then
     # Skip empty lines and comments
     if [[ -n "$key" && ! "$key" =~ ^# ]]; then
       # Export the variable and append it to .bashrc
-      export "$key"="$value"
-      echo "export $key=\"$value\"" >> "$BASHRC"
+      export $key=$value
+      echo "export $key=$value" >> "$BASHRC"
     fi
   done < "$ENV_FILE"
 
