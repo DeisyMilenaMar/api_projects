@@ -44,10 +44,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Apply migrations
-python manage.py migrate
-
-# Collect static files
-python manage.py collectstatic --noinput
+python manage.py migrate --settings=api.config.settings.development
 
 # Restart Django app and Celery processes
 pm2 restart django_app
