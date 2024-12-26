@@ -3,7 +3,7 @@ git fetch --all
 git reset --hard origin/development
 
 # Path to the .env file
-ENV_FILE="~/../etc/api_projects/.env"
+ENV_FILE="$HOME/../etc/api_projects/.env"
 BASHRC="$HOME/.bashrc"  # Target file to store variables persistently
 
 # Check if the .env file exists
@@ -35,7 +35,7 @@ else
   echo "Environment file not found: $ENV_FILE"
 fi
 
-source ~/.bashrc
+source $BASHRC
 
 # Activate the virtual environment
 source venv/bin/activate
