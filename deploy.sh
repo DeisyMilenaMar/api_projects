@@ -47,9 +47,9 @@ pip install -r requirements.txt
 python manage.py migrate --settings=api.config.settings.development
 
 # Restart Django app and Celery processes
-pm2 restart django_app
-pm2 restart celery_worker
-pm2 restart celery_beat
+pm2 restart django_app --update-env
+pm2 restart celery_worker --update-env
+pm2 restart celery_beat --update-env
 
 echo "Deployment completed successfully!"
 
