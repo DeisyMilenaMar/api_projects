@@ -1,5 +1,6 @@
 services:
   web:
+    image: binance_trader:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,7 +19,7 @@ services:
       - db
       - redis
     networks:
-      - apipython_net
+      - binance_api_net
 
   db:
     image: postgres:13
@@ -35,7 +36,7 @@ services:
     stop_grace_period: 1m
     stop_signal: SIGINT
     networks:
-      - apipython_net
+      - binance_api_net
 
   redis:
     image: redis:alpine
@@ -45,9 +46,10 @@ services:
       retries: 10
       start_period: 30s
     networks:
-      - apipython_net
+      - binance_api_net
 
   celery:
+    image: binance_trader_celery:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -63,11 +65,12 @@ services:
       - DJANGO_SETTINGS_MODULE=api.config.settings.base
       - PYTHONPATH=/API_PROJECTS/api
     networks:
-      - apipython_net
+      - binance_api_net
     stop_grace_period: 2m
     stop_signal: SIGINT
 
   celery-beat:
+    image: binance_trader_celery_beat:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -83,7 +86,7 @@ services:
       - DJANGO_SETTINGS_MODULE=api.config.settings.base
       - PYTHONPATH=/API_PROJECTS/api
     networks:
-      - apipython_net
+      - binance_api_net
     stop_grace_period: 2m
     stop_signal: SIGINT
 
@@ -91,5 +94,7 @@ volumes:
   postgres_data:
 
 networks:
-  apipython_net:
+  binance_api_net:
+    name: binance_api_net
     driver: bridge
+
