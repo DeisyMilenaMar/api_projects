@@ -1,5 +1,5 @@
 # Etapa 1: Construcción
-FROM python:3.10-buster AS builder
+FROM python:3.13.2-bullseye AS builder
 
 # Carga las variables de entorno desde el archivo .env
 ENV APP_DIR=/API_PROJECTS
@@ -31,7 +31,7 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Etapa 2: Imagen final
-FROM python:3.10-slim-buster
+FROM python:3.13.2-slim-bullseye
 
 # Definir el directorio de trabajo
 ENV APP_DIR=/API_PROJECTS
@@ -53,7 +53,7 @@ RUN chmod +x ./scripts/start ./scripts/entrypoint.sh ./scripts/create-dbs.sh
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    DJANGO_SETTINGS_MODULE=api.config.settings.base
 
 # Crea un usuario no-root para ejecutar la aplicación
 RUN useradd -m appuser

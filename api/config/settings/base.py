@@ -128,6 +128,7 @@ DATABASES = {
         "PASSWORD": getenvvar("POSTGRES_DB_PASSWORD", "postgres"),
         "HOST": getenvvar("POSTGRES_DB_HOST", "db"),
         "PORT": getenvvar("POSTGRES_DB_PORT", "5432"),
+        "CONN_MAX_AGE": 300,
     }
 }
 

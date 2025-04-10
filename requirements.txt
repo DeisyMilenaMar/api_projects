@@ -1,33 +1,42 @@
-# Packages for Django and its ecosystem
-Django==5.1.2              # Django web framework
-django-timezone-field==7.0  # Support for timezone fields in Django models
+# Django and REST framework packages
+Django==5.1.5                     # Django web framework
+djangorestframework==3.15.2      # Toolkit for building Web APIs in Django
+django-timezone-field==7.0       # Support for timezone fields in Django models
+djangorestframework-simplejwt==5.4.0  # JSON Web Token authentication for Django REST framework
 
 # Database-related packages
-dj-database-url==0.5.0     # Utility for configuring databases via URLs
-psycopg2-binary==2.9.0     # PostgreSQL database adapter for Python
+dj-database-url==2.3.0           # Utility for configuring databases via URLs
+psycopg2-binary==2.9.10          # PostgreSQL database adapter for Python
 
-# Packages related to Celery and asynchronous messaging
-amqp==5.2.0                # Messaging protocol used by Celery (e.g., RabbitMQ)
-billiard==4.2.1            # Multiprocessing library used by Celery
-celery==5.4.0              # Distributed task framework (background jobs)
-django-celery-beat==2.7.0  # Periodic task scheduling with Celery in Django
-django-celery-results==2.5.1  # Storing Celery task results in Django's database
-kombu==5.4.2               # Messaging library used by Celery (communication with brokers)
-vine==5.1.0                # Kombu dependency for handling asynchronous promises
+# Celery and asynchronous task processing
+amqp==5.2.0                      # Messaging protocol used by Celery (e.g., RabbitMQ)
+billiard==4.2.1                  # Multiprocessing library used by Celery
+celery==5.4.0                    # Distributed task framework (background jobs)
+django-celery-beat==2.7.0        # Periodic task scheduling with Celery in Django
+django-celery-results==2.5.1     # Storing Celery task results in Django's database
+kombu==5.4.2                     # Messaging library used by Celery (communication with brokers)
+vine==5.1.0                      # Kombu dependency for handling asynchronous promises
 
-# Packages related to Redis (broker for Celery)
-redis==5.1.1               # Redis client
+# Redis (message broker)
+redis==5.1.1                     # Redis client
 
-asgiref==3.8.1
-python-dateutil==2.9.0.post0
-python-crontab==3.2.0
-requests==2.32.3
-requests-mock==1.12.1
-vcrpy==6.0.2
-django-constance==4.1.2
-factory_boy==3.3.1
-djangorestframework==3.15.2
-autoflake==2.3.1
-pre_commit==4.0.1
-autopep8==2.3.1
+# Testing and request mocking
+requests==2.32.3                 # HTTP library for Python
+requests-mock==1.12.1            # Mocking library for requests
+vcrpy==7.0.0                     # Record and replay HTTP interactions for tests
+factory_boy==3.3.2               # Factory library for generating test data
+
+# Configuration and utilities
+django-constance==4.1.2          # Dynamic Django settings via admin
+python-crontab==3.2.0            # Crontab parser and editor
+python-dateutil==2.9.0.post0     # Date/time utilities
+asgiref==3.8.1                   # ASGI support library
+
+# Code formatting and linting
+autoflake==2.3.1                 # Removes unused imports and variables
+autopep8==2.3.2                  # Automatically formats Python code to conform to PEP 8
+pre_commit==4.0.1                # Framework for managing and running Git pre-commit hooks
+flake8==7.1.2                    # Tool for checking the style and quality of Python code
+black==24.10.0                   # Uncompromising code formatter
+isort==6.0.0                     # Python utility for sorting imports
 
