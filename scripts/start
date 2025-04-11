@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# Ejecutar el entrypoint para preparar la aplicación
+sh ./scripts/entrypoint.sh
+
+# Iniciar el servidor de desarrollo
+exec python manage.py runserver 0.0.0.0:8000

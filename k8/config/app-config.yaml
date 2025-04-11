@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DEBUG: "True"
+  POSTGRES_DB_NAME: "postgres"
+  POSTGRES_DB_USER: "postgres"
+  POSTGRES_DB_HOST: "db"
+  POSTGRES_DB_PORT: "5432"
+  BINANCE_TRADER_API_DB_NAME: "binance_trader_db"
+  BINANCE_TRADER_API_DB_USER: "binance_trader_user"
+  BINANCE_TRADER_API_DB_HOST: "db"
+  BINANCE_TRADER_API_DB_PORT: "5432"
+  CELERY_BROKER_URL: "redis://redis:6379/0"
+  CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+  CELERY_BROKER_CONNECTION_MAX_RETRIES: "5"
+  CELERY_BROKER_CONNECTION_TIMEOUT: "10"
+  CELERY_TASK_ALWAYS_EAGER: "False"
+  CELERY_TASK_TIME_LIMIT: "300"
+  CELERY_TIMEZONE: "UTC"
+  BINANCE_TRADER_API_HOST: "https://p2p.binance.com"
+  C2C_SEARCH_ENDPOINT: "/bapi/c2c/v2/friendly/c2c/adv/search"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  DEFAULT_FROM_EMAIL: "deisymilenamartinez04@gmail.com"

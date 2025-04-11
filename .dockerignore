@@ -1,0 +1,22 @@
+# Ignore Git repository data
+.git/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore build artifacts
+bin/
+obj/
+
+# Ignore environment variables and sensitive config
+.env
+
+# Ignore Git configuration file
+.gitignore
+
+# Ignore test files
+tests/
+
+# Ignore documentation files
+README.md

@@ -1,0 +1,108 @@
+version: '3.8'
+services:
+  web:
+    image: binance_trader:dev
+    entrypoint: ["sh", "./scripts/entrypoint.sh"]
+    command: ["sh", "./scripts/start"]
+    volumes:
+      - type: bind
+        source: .
+        target: /API_PROJECTS
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
+      - PYTHONPATH=/API_PROJECTS/api
+      - PYTHONUNBUFFERED=1
+    networks:
+      - binance_api_net
+    depends_on:
+      - db
+    deploy:
+      replicas: 1  # 👈 AÑADIDO
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+      placement:
+        constraints: [node.role == manager]
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_DB_USER}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
+    networks:
+      - binance_api_net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+      placement:
+        constraints: [node.role == manager]
+
+  redis:
+    image: redis:alpine
+    networks:
+      - binance_api_net
+    deploy:
+      replicas: 1  # 👈 AÑADIDO
+      restart_policy:
+        condition: on-failure
+
+  celery:
+    image: binance_trader_celery:dev
+    command: celery -A api.config.celery_setup worker --loglevel=info
+    volumes:
+      - type: bind
+        source: .
+        target: /API_PROJECTS
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
+      - PYTHONPATH=/API_PROJECTS/api
+      - PYTHONUNBUFFERED=1
+    networks:
+      - binance_api_net
+    deploy:
+      replicas: 1  # 👈 AÑADIDO
+      restart_policy:
+        condition: on-failure
+
+  celery-beat:
+    image: binance_trader_celery_beat:dev
+    command: celery -A api.config.celery_setup beat --loglevel=info
+    volumes:
+      - type: bind
+        source: .
+        target: /API_PROJECTS
+    env_file:
+      - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=api.config.settings.base
+      - PYTHONPATH=/API_PROJECTS/api
+      - PYTHONUNBUFFERED=1
+    networks:
+      - binance_api_net
+    deploy:
+      replicas: 1  # 👈 AÑADIDO
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  postgres_data:
+
+networks:
+  binance_api_net:
+    driver: overlay
