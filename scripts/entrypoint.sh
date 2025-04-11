@@ -7,15 +7,11 @@ until PGPASSWORD="$POSTGRES_DB_PASSWORD" psql -h "$POSTGRES_DB_HOST" -U "$POSTGR
     sleep 1
 done
 
+# Hay un error en esta línea, falta el símbolo '>'
 >&2 echo "Postgres is up - executing command"
 
 # Run migrations
 python manage.py migrate --settings=api.config.settings.base
-
-# Collect static files only if using the production settings.
-# if [ "$DJANGO_SETTINGS_MODULE" = "api.config.settings.base" ]; then
-#     python manage.py collectstatic --noinput --clear
-# fi
 
 # Execute the command passed to the entrypoint
 exec "$@"
